@@ -10,15 +10,19 @@ void solve(int n, vector<vector<int>> m)
     for(int j = 0; i + j < n; j++)
     {
       mn = min(mn, m[j][i+j]);
-      cout<<m[j][i+j]<<" ";
     }
-    cout<<"!\n";
-    if(mn < 0)
-    {
-      ans += abs(mn);
-    }
+    if(mn < 0) ans += abs(mn);
   }
-  cout<<"["<<ans<<"]"<<"\n";
+  for(int i = 0; i < n-1; i++)
+  {
+    int mn = 0;
+    for(int j = 0; i-j >= 0 && n - j - 1 >= 0; j++)
+    {
+      mn = min(mn, m[n-j-1][i-j]);
+    }
+    if(mn < 0) ans += abs(mn);
+  }
+  cout<<ans<<"\n";
 }
 
 int main()
