@@ -1,9 +1,10 @@
-solveCases :: Int -> IO ()
 solveCase :: [Int] -> Bool
 solveCase [x] = True
 solveCase (x : y : xs) =
   let diff = abs (x - y)
    in (diff == 5 || diff == 7) && solveCase (y : xs)
+
+solveCases :: Int -> IO ()
 solveCases 0 = return ()
 solveCases x = do
   n <- (readLn :: IO Int)
