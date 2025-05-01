@@ -12,8 +12,7 @@ void solve() {
 
 }
 
-int main()
-{
+int main() {
   if(!DEBUG) {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
