@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define DEBUG false
+#define DEBUG 0
+#define TEST 0
 
 #define ll long long
 #define ull unsigned long long
@@ -26,6 +27,7 @@ void solve(TestData data) {
 
 }
 
+#if !TEST
 int main() {
   if(!DEBUG) {
     ios_base::sync_with_stdio(0);
@@ -37,11 +39,10 @@ int main() {
   while(t--) {
     TestData data;
 
-
-
     solve(data);
   }
 }
+#endif
 /*
 
 */
