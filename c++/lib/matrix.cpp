@@ -20,6 +20,9 @@ struct Matrix {
     }
     return result;
   }
+  vector<long long>& operator[](int i) {
+    return data[i];
+  }
   static Matrix identity(int n) {
     Matrix matrix(n);
     for(int i = 0; i < n; i++) {
