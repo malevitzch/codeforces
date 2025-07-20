@@ -6,6 +6,9 @@ using namespace std;
 #define ll long long
 #define ull unsigned long long
 
+#define ipair pair<int, int>
+#define llpair pair<ll, ll>
+
 #define vi vector<int>
 #define vll vector<long long>
 #define vull vector<unsigned long long>
