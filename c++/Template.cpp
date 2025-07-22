@@ -21,6 +21,19 @@ using namespace std;
 using namespace dbg;
 #endif // DEBUG
 
+void YES() {
+  cout << "YES\n";
+}
+void NO() {
+  cout << "NO\n";
+}
+void answer(bool b) {
+  if(b) {
+    YES();
+  } else {
+    NO();
+  }
+}
 
 void solve() {
 
