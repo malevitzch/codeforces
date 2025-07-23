@@ -24,6 +24,9 @@ using namespace dbg;
 void YES() {cout << "YES\n";}
 void NO() {cout << "NO\n";}
 void answer(bool b) {b ? YES() : NO();}
+ll inp() {ll x; cin >> x; return x;}
+ll& inp(ll& x) {cin >> x; return x;}
+int& inp(int& x) {cin >> x; return x;}
 
 void solve() {
 
