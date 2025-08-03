@@ -22,8 +22,21 @@ long long inverse(long long x) {
 }
 
 long long binom(long long n, long long k) {
-  if(k == 0 || k == n) {
-    return 1;
+  if(k < 0 || k > n) {
+    return 0;
   }
   return (((factorial(n) * inverse(factorial(k))) % p) * inverse(factorial(n - k))) % p;
+}
+
+// For use when k is small and n is very large
+long long iterativeBinom(long long n, long long k) {
+  if(k < 0 || k > n) {
+    return 0;
+  }
+  long long ans = 1;
+  for(long long i = 1; i <= k; i++) {
+    ans = (ans * (n - i + 1) ) % p;
+    ans = (ans * inverse(i)) % p;
+  }
+  return ans;
 }
