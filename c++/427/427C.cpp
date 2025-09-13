@@ -1,5 +1,34 @@
 #include <bits/stdc++.h>
+#include <numeric>
 using namespace std;
+
+#define DEBUG false
+
+#define ll long long
+#define ull unsigned long long
+
+#define ipair pair<int, int>
+#define llpair pair<ll, ll>
+
+#define vi vector<int>
+#define vb vector<bool>
+#define vll vector<long long>
+#define vull vector<unsigned long long>
+#define vstr vector<string>
+
+#define bit(x,i) (x&(1<<i))
+
+#if DEBUG == 1
+#include "debug_lib.cpp"
+using namespace dbg;
+#endif // DEBUG
+
+void YES() {cout << "YES\n";}
+void NO() {cout << "NO\n";}
+void answer(bool b) {b ? YES() : NO();}
+ll inp() {ll x; cin >> x; return x;}
+ll& inp(ll& x) {cin >> x; return x;}
+int& inp(int& x) {cin >> x; return x;}
 
 struct graph_t {
   int n;
@@ -64,3 +93,50 @@ scc_t scc(graph_t& graph) {
         res.g[res[i]].push_back(res[x]);
   return res;
 }
+
+constexpr ll p = 1e9 + 7;
+
+void solve() {
+  int n;
+  cin >> n;
+  vi costs(n);
+  for(int& x : costs) cin >> x;
+  graph_t graph(n);
+  int m;
+  cin >> m;
+  for(int i = 0; i < m; i++) {
+    int a, b;
+    cin >> a >> b;
+    graph[a].push_back(b);
+  }
+  scc_t s = scc(graph);
+  int k = s.count();
+  vector<int> mn(k+1, INT_MAX);
+  vector<int> options(k+1);
+  for(int i : graph.nodes()) {
+    int x = s[i];
+    if(mn[x] > costs[i-1]) {
+      options[x] = 0;
+      mn[x] = costs[i-1];
+    }
+    if(mn[x] == costs[i-1]) options[x]++;
+  }
+  long long mcost = std::accumulate(mn.begin() + 1, mn.end(), 0LL);
+  long long opt = 1;
+  for(int i = 1; i <= k; i++) {
+    opt = (opt * options[i]) % p;
+  }
+  cout << mcost << " " << opt << "\n";
+}
+
+int main() {
+  if(!DEBUG) {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+  }
+  solve();
+}
+/*
+
+*/
