@@ -10,6 +10,7 @@ using namespace std;
 #define llpair pair<ll, ll>
 
 #define vi vector<int>
+#define vb vector<bool>
 #define vll vector<long long>
 #define vull vector<unsigned long long>
 #define vstr vector<string>

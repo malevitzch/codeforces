@@ -41,7 +41,7 @@ struct scc_t {
   vector<int> which;
   graph_t g;
 
-  scc_t(int size) : n(size), which(n+1) {}
+  scc_t(int size) : n(size+1), which(n+1) {}
   int& operator[](int i) { return which[i]; }
 };
 
@@ -50,13 +50,16 @@ void paint(int node, int color, graph_t& graph, vector<int>& colors) {
   for(int x : graph[node]) if(!colors[x]) paint(x, color, graph, colors);
 }
 
-scc_t scc(graph_t& graph, int n) {
+scc_t scc(graph_t& graph) {
   vector<int> order = toposort(graph);
   graph_t rg = reverse_graph(graph);
-  scc_t res(n);
+  scc_t res(graph.n);
   int color = 0;
   for(int v : order) if(!res[v]) paint(v, ++color, rg, res.which);
   res.g = graph_t(color);
-  for(int i : graph.nodes()) for(int x : graph[i]) if(res[i] != res[x]) res.g[i].push_back(x);
+  for(int i : graph.nodes())
+    for(int x : graph[i])
+      if(res[i] != res[x])
+        res.g[res[i]].push_back(res[x]);
   return res;
 }
