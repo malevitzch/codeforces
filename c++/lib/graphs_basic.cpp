@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#ifndef GRAPH_T
+#define GRAPH_T
 struct graph_t {
   int n;
   vector<vector<int>> g;
@@ -14,6 +16,7 @@ struct graph_t {
     return v;
   }
 };
+#endif
 
 void topo_dfs(int node, graph_t& graph, vector<bool>& vis, vector<int>& res) {
   vis[node] = true;
