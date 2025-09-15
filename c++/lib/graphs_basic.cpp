@@ -67,3 +67,30 @@ scc_t scc(graph_t& graph) {
         res.g[res[i]].push_back(res[x]);
   return res;
 }
+
+struct orders_t;
+void get_orders(int node, graph_t& graph, orders_t& ord, int& t);
+
+struct orders_t {
+  vector<int> pre;
+  vector<int> post;
+  orders_t(graph_t& graph, int root) : pre(graph.n+1), post(graph.n+1) {
+    int t = 1;
+    get_orders(root, graph, *this, t);
+  }
+
+  // if a is in subtree of b
+  bool in_subtree(int a, int b) {
+    return pre[a] >= pre[b] && post[a] <= post[b];
+  }
+};
+
+void get_orders(int node, graph_t& graph, orders_t& ord, int& t) {
+  ord.pre[node] = t++;
+  for(int x : graph[node]) {
+    if(ord.pre[x] == 0) {
+      get_orders(x, graph, ord, t);
+    }
+  }
+  ord.post[node] = t;
+}

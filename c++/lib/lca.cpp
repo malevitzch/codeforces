@@ -30,8 +30,9 @@ struct lca_t {
 
   int lca(int a, int b) {
     if(depths[a] < depths[b]) swap(a, b);
-    for(int i = 21; i >= 0; i--) if(depths[jump[a][i]] >= depths[b]) a = jump[a][i];
-    for(int i = 21; i >= 0; i--) if(jump[a][i] != jump[b][i]) { a = jump[a][i]; b = jump[b][i]; }
+    for(int i = MAX_DEPTH-1; i >= 0; i--) if(depths[jump[a][i]] >= depths[b]) a = jump[a][i];
+    if(a == b) return a;
+    for(int i = MAX_DEPTH-1; i >= 0; i--) if(jump[a][i] != jump[b][i]) { a = jump[a][i]; b = jump[b][i]; }
     return jump[a][0];
   }
 };
@@ -41,7 +42,7 @@ void lca_dfs(int node, graph_t& graph, lca_t& lca) {
     if(lca[x][0] == 0) {
       lca[x][0] = node;
       lca.depths[x] = lca.depths[node] + 1;
-      lca_dfs(node, graph, lca);
+      lca_dfs(x, graph, lca);
     }
   }
 }
