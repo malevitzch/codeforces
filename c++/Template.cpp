@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <vector>
 using namespace std;
 
 #define DEBUG false
@@ -29,20 +30,17 @@ ll inp() {ll x; cin >> x; return x;}
 ll& inp(ll& x) {cin >> x; return x;}
 int& inp(int& x) {cin >> x; return x;}
 
+template<typename T>
+vector<vector<T>> mtrx(size_t h, size_t l, T val = T()) { return vector<vector<T>>(h, vector<T>(l, val));}
+
 void solve() {
 
 }
 
 int main() {
-  if(!DEBUG) {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-  }
-  int t;
-  cin>>t;
-  while(t--) {
-    solve();
-  }
+  if(!DEBUG) {ios_base::sync_with_stdio(0); cin.tie(0);}
+  int t = inp();
+  while(t--) solve();
 }
 /*
 
