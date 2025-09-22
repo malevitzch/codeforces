@@ -4,19 +4,19 @@ using namespace std;
 
 #define DEBUG false
 
-#define ll long long
-#define ull unsigned long long
+using ll  = long long;
+using ull = unsigned long long;
 
-#define ipair pair<int, int>
-#define llpair pair<ll, ll>
+using ipair  = pair<int, int>;
+using llpair = pair<ll, ll>;
 
-#define vi vector<int>
-#define vb vector<bool>
-#define vll vector<long long>
-#define vull vector<unsigned long long>
-#define vstr vector<string>
+using vi   = vector<int>;
+using vb   = vector<bool>;
+using vll  = vector<long long>;
+using vull = vector<unsigned long long>;
+using vstr = vector<string>;
 
-#define bit(x,i) (x&(1<<i))
+#define bit(x,i) (x&(1LL<<i))
 
 #if DEBUG == 1
 #include "debug_lib.cpp"
@@ -31,7 +31,7 @@ ll& inp(ll& x) {cin >> x; return x;}
 int& inp(int& x) {cin >> x; return x;}
 
 template<typename T>
-vector<vector<T>> mtrx(size_t h, size_t l, T val = T()) { return vector<vector<T>>(h, vector<T>(l, val));}
+vector<vector<T>> mtrx(size_t h, size_t l, T val = T()) {return vector<vector<T>>(h, vector<T>(l, val));}
 
 void solve() {
 
