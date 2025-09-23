@@ -18,9 +18,9 @@ struct graph_t {
 };
 #endif
 
-constexpr int MAX_DEPTH = 22;
+constexpr int MAX_DEPTH = 22; // Corresponds to about 4*10^6 maximum depth of the tree
 struct lca_t {
-  graph_t g; // needs to be a tree otherwise this will make it one in a dumb way
+  graph_t g;
   int root;
   vector<array<int, MAX_DEPTH>> jump;
   vector<int> depths;
@@ -30,9 +30,11 @@ struct lca_t {
 
   int lca(int a, int b) {
     if(depths[a] < depths[b]) swap(a, b);
-    for(int i = MAX_DEPTH-1; i >= 0; i--) if(depths[jump[a][i]] >= depths[b]) a = jump[a][i];
+    for(int i = MAX_DEPTH-1; i >= 0; i--)
+      if(depths[jump[a][i]] >= depths[b]) a = jump[a][i];
     if(a == b) return a;
-    for(int i = MAX_DEPTH-1; i >= 0; i--) if(jump[a][i] != jump[b][i]) { a = jump[a][i]; b = jump[b][i]; }
+    for(int i = MAX_DEPTH-1; i >= 0; i--)
+      if(jump[a][i] != jump[b][i]) a = jump[a][i], b = jump[b][i];
     return jump[a][0];
   }
 };
@@ -52,11 +54,8 @@ lca_t lca(graph_t graph, int root) {
   res[root][0] = root;
   res.depths[root] = 0;
   lca_dfs(root, graph, res);
-  for(int i = 1; i < MAX_DEPTH; i++) {
-    for(int v : graph.nodes()) {
+  for(int i = 1; i < MAX_DEPTH; i++)
+    for(int v : graph.nodes())
       res[v][i] = res[res[v][i-1]][i-1];
-    }
-  }
-
   return res;
 }

@@ -20,7 +20,8 @@ struct graph_t {
 
 void topo_dfs(int node, graph_t& graph, vector<bool>& vis, vector<int>& res) {
   vis[node] = true;
-  for(int x : graph[node]) if(!vis[x]) topo_dfs(x, graph, vis, res);
+  for(int x : graph[node])
+    if(!vis[x]) topo_dfs(x, graph, vis, res);
   res.push_back(node);
 }
 
@@ -28,14 +29,16 @@ void topo_dfs(int node, graph_t& graph, vector<bool>& vis, vector<int>& res) {
 vector<int> toposort(graph_t& graph) {
   vector<int> result;
   vector<bool> vis(graph.n+1);
-  for(int i : graph.nodes()) if(!vis[i]) topo_dfs(i, graph, vis, result);
+  for(int i : graph.nodes())
+    if(!vis[i]) topo_dfs(i, graph, vis, result);
   reverse(result.begin(), result.end());
   return result;
 }
 
 graph_t reverse_graph(graph_t& graph) {
   graph_t rev_graph(graph.n+1);
-  for(int i : graph.nodes()) for(int x : graph[i]) rev_graph[x].push_back(i);
+  for(int i : graph.nodes())
+    for(int x : graph[i]) rev_graph[x].push_back(i);
   return rev_graph;
 }
 
@@ -51,7 +54,8 @@ struct scc_t {
 
 void paint(int node, int color, graph_t& graph, vector<int>& colors) {
   colors[node] = color;
-  for(int x : graph[node]) if(!colors[x]) paint(x, color, graph, colors);
+  for(int x : graph[node])
+    if(!colors[x]) paint(x, color, graph, colors);
 }
 
 scc_t scc(graph_t& graph) {
@@ -59,7 +63,8 @@ scc_t scc(graph_t& graph) {
   graph_t rg = reverse_graph(graph);
   scc_t res(graph.n);
   int color = 0;
-  for(int v : order) if(!res[v]) paint(v, ++color, rg, res.which);
+  for(int v : order) 
+    if(!res[v]) paint(v, ++color, rg, res.which);
   res.g = graph_t(color);
   for(int i : graph.nodes())
     for(int x : graph[i])
@@ -87,10 +92,8 @@ struct orders_t {
 
 void get_orders(int node, graph_t& graph, orders_t& ord, int& t) {
   ord.pre[node] = t++;
-  for(int x : graph[node]) {
-    if(ord.pre[x] == 0) {
+  for(int x : graph[node])
+    if(ord.pre[x] == 0)
       get_orders(x, graph, ord, t);
-    }
-  }
   ord.post[node] = t;
 }
