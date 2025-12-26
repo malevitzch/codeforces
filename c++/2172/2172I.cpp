@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 #define DEBUG false
 
 using ll  = long long;
@@ -23,6 +22,32 @@ using namespace dbg;
 #endif // DEBUG
 
 constexpr float pi = 3.14159265358979323846;
+
+const uint8_t skipChar = ' ';
+inline int64_t __attribute__ ((
+            always_inline, flatten, nothrow, hot 
+        )) _readSignedInt64() {
+            uint8_t c = (uint8_t) _getchar_nolock();
+            for (;;) {
+                if (c > skipChar) [[likely]] break;
+                c = (uint8_t) _getchar_nolock();
+            }
+            bool sign = false;
+            if (c == '-') {
+                sign = true;
+                c = (uint8_t) _getchar_nolock();
+            }
+            uint64_t o = c - '0';
+
+            for (;;) {
+                const int32_t r = _getchar_nolock();
+                if (r == EOF) [[unlikely]] break;
+                const uint8_t k = (uint8_t) r;
+                if (k <= skipChar) [[unlikely]] break;
+                o = 10 * o + k - '0';
+            }
+            return sign ? -(int64_t)o : (int64_t)o;
+        }
 
 void YES() {cout << "YES\n";}
 void NO() {cout << "NO\n";}
@@ -115,7 +140,8 @@ void find_area(pt a, pt b, float r) {
 void solve() {
   int n;
   float r;
-  cin >> n >> r;
+  n = _readSignedInt64();
+  r = _readSignedInt64();
   smallestd = r*r;
   win = false;
   float mx = pi * r * r / 2;
@@ -123,8 +149,8 @@ void solve() {
   cx = 0;
   cy = 0;
   for(int i = 0; i < n; i++) {
-    float a, b;
-    cin >> a >> b;
+    float a = _readSignedInt64();
+    float b = _readSignedInt64();
     cx += a/n;
     cy += b/n;
     points.push_back({a, b});
