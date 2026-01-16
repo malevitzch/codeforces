@@ -15,7 +15,7 @@ int cpow(int x) {
   return res;
 }
 
-// Combine : (left: const V&) -> (right: const V&) -> V
+// Combine : (left: V&) -> (right: V&) -> V
 // Pushdown : (parent: V&) -> (left: V*) -> (right: V*) -> void
 // Pushdown should handle nullptr children
 template<typename V, auto Combine, auto Pushdown>
@@ -33,11 +33,17 @@ struct SegmentTree {
     return vals[2*index+1];
   }
 
+  Node_t comb(Node_t l, Node_t r) {
+    if(l.id) return r;
+    else if(r.id) return l;
+    return Node_t(Combine(l.val, r.val));
+  }
+
   void refresh(int pos) {
     if(pos >= SIZE) return;
     if(left(pos).id) vals[pos] = left(pos);
     else if(right(pos).id) vals[pos] = right(pos);
-    else vals[pos] = Combine(left(pos), right(pos));
+    else vals[pos] = comb(left(pos), right(pos));
   }
   void fix(int pos) {
     while(pos /= 2 >= 1) refresh(pos);
@@ -67,8 +73,8 @@ struct SegmentTree {
   }
 
   Node_t recursive_seg_query(int index, int target_l, int target_r, int l, int r) {
-    if(index >= SIZE) {Pushdown(vals[index], nullptr, nullptr);}
-    else Pushdown(vals);
+    if(index >= SIZE) {Pushdown(vals[index].val, nullptr, nullptr);}
+    else Pushdown(vals[index].val, &left(index).val, &right(index).val);
     if(target_l > r || target_r < l) {
       return Node_t();
     }
@@ -76,7 +82,7 @@ struct SegmentTree {
       return vals[index];
     }
 
-    return Combine(
+    return comb(
       recursive_seg_query(2*index, target_l, target_r, l, (l + r) / 2),
       recursive_seg_query(2*index+1, target_l, target_r, (l + r) / 2 + 1, r)
     );
