@@ -45,8 +45,14 @@ struct SegmentTree {
     else if(right(pos).id) vals[pos] = right(pos);
     else vals[pos] = comb(left(pos), right(pos));
   }
+
   void fix(int pos) {
     while(pos /= 2 >= 1) refresh(pos);
+  }
+
+  void pushdown(int index) {
+    if(index >= SIZE) {Pushdown(vals[index].val, nullptr, nullptr);}
+    else Pushdown(vals[index].val, &left(index).val, &right(index).val);
   }
 
   SegmentTree(int size) {
@@ -72,9 +78,12 @@ struct SegmentTree {
     return recursive_seg_query(1, l, r, 0, SIZE - 1);
   }
 
+  void operation_segment(int l, int r, void (*operation)(V&)) {
+    recursive_seg_operation(1, l, r, 0, SIZE - 1, operation);
+  }
+
   Node_t recursive_seg_query(int index, int target_l, int target_r, int l, int r) {
-    if(index >= SIZE) {Pushdown(vals[index].val, nullptr, nullptr);}
-    else Pushdown(vals[index].val, &left(index).val, &right(index).val);
+    pushdown(index);
     if(target_l > r || target_r < l) {
       return Node_t();
     }
@@ -86,6 +95,20 @@ struct SegmentTree {
       recursive_seg_query(2*index, target_l, target_r, l, (l + r) / 2),
       recursive_seg_query(2*index+1, target_l, target_r, (l + r) / 2 + 1, r)
     );
+  }
+
+  // TODO: this might not work
+  void recursive_seg_operation(int index, int target_l, int target_r, int l, int r, void (*operation)(V&)) {
+    pushdown(index);
+    if(target_l > r || target_r < l) return;
+    if(target_r >= r && target_l <= l) {
+      (*operation)(vals[index].val);
+      pushdown(index);
+    } else {
+      recursive_seg_operation(2*index, target_l, target_r, l, (l + r) / 2, operation);
+      recursive_seg_operation(2*index+1, target_l, target_r, (l + r) / 2 + 1, r, operation);
+      refresh(index);
+    }
   }
 
   ~SegmentTree() {
