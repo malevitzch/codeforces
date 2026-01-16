@@ -78,8 +78,8 @@ struct SegmentTree {
     return recursive_seg_query(1, l, r, 0, SIZE - 1);
   }
 
-  void operation_segment(int l, int r, void (*operation)(V&)) {
-    recursive_seg_operation(1, l, r, 0, SIZE - 1, operation);
+  void operation_segment(int l, int r, void (*operation)(V&, void*), void* arg) {
+    recursive_seg_operation(1, l, r, 0, SIZE - 1, operation, arg);
   }
 
   Node_t recursive_seg_query(int index, int target_l, int target_r, int l, int r) {
@@ -98,15 +98,15 @@ struct SegmentTree {
   }
 
   // TODO: this might not work
-  void recursive_seg_operation(int index, int target_l, int target_r, int l, int r, void (*operation)(V&)) {
+  void recursive_seg_operation(int index, int target_l, int target_r, int l, int r, void (*operation)(V&, void*), void* arg) {
     pushdown(index);
     if(target_l > r || target_r < l) return;
     if(target_r >= r && target_l <= l) {
-      (*operation)(vals[index].val);
+      (*operation)(vals[index].val, arg);
       pushdown(index);
     } else {
-      recursive_seg_operation(2*index, target_l, target_r, l, (l + r) / 2, operation);
-      recursive_seg_operation(2*index+1, target_l, target_r, (l + r) / 2 + 1, r, operation);
+      recursive_seg_operation(2*index, target_l, target_r, l, (l + r) / 2, operation, arg);
+      recursive_seg_operation(2*index+1, target_l, target_r, (l + r) / 2 + 1, r, operation, arg);
       refresh(index);
     }
   }
