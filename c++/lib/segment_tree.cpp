@@ -71,9 +71,6 @@ struct SegmentTree {
     }
   }
 
-  Node_t query_point(int index) {
-
-  }
   Node_t query_segment(int l, int r) {
     return recursive_seg_query(1, l, r, 0, SIZE - 1);
   }
@@ -97,7 +94,6 @@ struct SegmentTree {
     );
   }
 
-  // TODO: this might not work
   void recursive_seg_operation(int index, int target_l, int target_r, int l, int r, void (*operation)(V&, void*), void* arg) {
     pushdown(index);
     if(target_l > r || target_r < l) return;
