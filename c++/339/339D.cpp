@@ -122,3 +122,84 @@ struct SegmentTree {
     delete vals;
   }
 };
+
+#define DEBUG false
+
+using ll  = long long;
+using ull = unsigned long long;
+
+using ipair  = pair<int, int>;
+using llpair = pair<ll, ll>;
+
+using vi   = vector<int>;
+using vb   = vector<bool>;
+using vll  = vector<long long>;
+using vull = vector<unsigned long long>;
+using vstr = vector<string>;
+
+#define bit(x,i) (x&(1LL<<i))
+
+#if DEBUG == 1
+#include "debug_lib.cpp"
+using namespace dbg;
+#endif // DEBUG
+
+void YES() {cout << "YES\n";}
+void NO() {cout << "NO\n";}
+void answer(bool b) {b ? YES() : NO();}
+ll inp() {ll x; cin >> x; return x;}
+ll& inp(ll& x) {cin >> x; return x;}
+int& inp(int& x) {cin >> x; return x;}
+
+template<typename T>
+vector<vector<T>> mtrx(size_t h, size_t l, T val = T()) {return vector<vector<T>>(h, vector<T>(l, val));}
+
+
+struct Val {
+  bool flag = true;
+  Val() = default;
+  int val = 0;
+  Val(int x) : val(x) {}
+};
+
+// Combine : (left: V&) -> (right: V&) -> V
+// Pushdown : (parent: V&) -> (left: V*) -> (right: V*) -> void
+
+Val combine(Val& left, Val& right) {
+  Val v;
+  v.flag = !left.flag;
+  if(left.flag) {
+    v.val = (left.val | right.val);
+  } else {
+    v.val = (left.val ^ right.val);
+  }
+  return v;
+}
+
+void pushdown(Val& node, Val* left, Val* right) {}
+
+
+void solve() {
+  int n = inp();
+  int m = inp();
+  SegmentTree<Val, combine, pushdown> t(1 << n);
+  for(int i = 0; i < (1 << n); i++) {
+    int x = inp();
+    t.insert(i, Val(x));
+  }
+  for(int i = 0; i < m; i++) {
+    int p, b;
+    cin >> p >> b;
+    t.insert(p - 1, Val(b));
+    cout << t.vals[1].val.val << "\n";
+  }
+
+}
+
+int main() {
+  if(!DEBUG) {ios_base::sync_with_stdio(0); cin.tie(0);}
+  solve();
+}
+/*
+
+*/
