@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <vector>
 using namespace std;
 
 template<typename V>
@@ -123,3 +124,103 @@ struct SegmentTree {
     delete vals;
   }
 };
+
+#define DEBUG false
+
+using ll  = long long;
+using ull = unsigned long long;
+
+using ipair  = pair<int, int>;
+using llpair = pair<ll, ll>;
+
+using vi   = vector<int>;
+using vb   = vector<bool>;
+using vll  = vector<long long>;
+using vull = vector<unsigned long long>;
+using vstr = vector<string>;
+
+#define bit(x,i) (x&(1LL<<i))
+
+#if DEBUG == 1
+#include "debug_lib.cpp"
+using namespace dbg;
+#endif // DEBUG
+
+void YES() {cout << "YES\n";}
+void NO() {cout << "NO\n";}
+void answer(bool b) {b ? YES() : NO();}
+ll inp() {ll x; cin >> x; return x;}
+ll& inp(ll& x) {cin >> x; return x;}
+int& inp(int& x) {cin >> x; return x;}
+
+template<typename T>
+vector<vector<T>> mtrx(size_t h, size_t l, T val = T()) {return vector<vector<T>>(h, vector<T>(l, val));}
+
+struct Val {
+  ll mn = 0;
+  ll pd = 0;
+  Val(ll x) : mn(x) {}
+  Val() = default;
+};
+
+Val cb(Val& v1, Val& v2) {
+  Val v;
+  v.mn = min(v1.mn + v1.pd, v2.mn + v2.pd);
+  return v;
+}
+
+void pd(Val& v, Val* l, Val* r) {
+  if(l) l->pd += v.pd;
+  if(r) r->pd += v.pd;
+  v.mn += v.pd;
+  v.pd = 0;
+}
+
+void op(Val& val, void* v) {
+  val.pd += *((int*) v);
+}
+
+void solve() {
+  int n = inp();
+  vector<Val> v(n);
+  for(auto& x : v) cin >> x.mn;
+  SegmentTree<Val, cb, pd> t(v);
+  int m;
+  cin >> m;
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+  for(int i = 0; i < m; i++) {
+    string line;
+    getline(cin, line);
+    stringstream ss(line);
+    vector<int> v;
+    int x;
+    while(ss >> x) {
+      v.push_back(x);
+    }
+    int lg = v[0];
+    int rg = v[1];
+    if(v.size() > 2) {
+      int x = v[2];
+      if(lg <= rg) {
+        t.operation_segment(lg, rg, op, &x);
+      } else {
+        t.operation_segment(0, rg, op, &x);
+        t.operation_segment(lg, n - 1, op, &x);
+      }
+    } else {
+      if(lg <= rg) {
+        cout << t.query_segment(lg, rg).val.mn << "\n";
+      } else {
+        cout << min(t.query_segment(0, rg).val.mn, t.query_segment(lg, n - 1).val.mn) << "\n";
+      }
+    }
+  }
+}
+
+int main() {
+  if(!DEBUG) {ios_base::sync_with_stdio(0); cin.tie(0);}
+  solve();
+}
+/*
+
+*/
