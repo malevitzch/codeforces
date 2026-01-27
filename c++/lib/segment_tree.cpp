@@ -42,9 +42,7 @@ struct SegmentTree {
 
   void refresh(int pos) {
     if(pos >= SIZE) return;
-    if(left(pos).id) vals[pos] = left(pos);
-    else if(right(pos).id) vals[pos] = right(pos);
-    else vals[pos] = comb(left(pos), right(pos));
+    vals[pos] = comb(left(pos), right(pos));
   }
 
   void fix(int pos) {
