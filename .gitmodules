@@ -1,0 +1,3 @@
+[submodule "c++/algolib"]
+	path = c++/algolib
+	url = https://github.com/malevitzch/algolib.git
