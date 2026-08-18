@@ -2,8 +2,6 @@
 #include <vector>
 using namespace std;
 
-#define DEBUG false
-
 using ll  = long long;
 using ull = unsigned long long;
 
@@ -17,11 +15,6 @@ using vull = vector<unsigned long long>;
 using vstr = vector<string>;
 
 #define bit(x,i) (x&(1LL<<i))
-
-#if DEBUG == 1
-#include "debug_lib.cpp"
-using namespace dbg;
-#endif // DEBUG
 
 void YES() {cout << "YES\n";}
 void NO() {cout << "NO\n";}
@@ -38,7 +31,7 @@ void solve() {
 }
 
 int main() {
-  if(!DEBUG) {ios_base::sync_with_stdio(0); cin.tie(0);}
+  ios_base::sync_with_stdio(0); cin.tie(0);
   int t = inp();
   while(t--) solve();
 }
